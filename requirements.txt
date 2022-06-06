@@ -1,2 +1,2 @@
 streamlit
-twspace-dl==2022.6.6.1
+git+https://github.com/HoloArchivists/twspace-dl
