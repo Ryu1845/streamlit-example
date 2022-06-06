@@ -1,2 +1,2 @@
 streamlit
-twspace-dl
+twspace-dl==2022.6.6.1
