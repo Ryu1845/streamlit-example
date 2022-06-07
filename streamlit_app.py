@@ -1,8 +1,14 @@
 from datetime import datetime
+import os
+import shutil
+
 import streamlit as st
 from twspace_dl import Twspace, TwspaceDL
 import streamlit.components.v1 as components
 
+os.environ["PATH"] = f"{os.environ['PATH']}:{os.path.dirname(__file__)}"
+
+print(shutil.which("ffmpeg"))
 st.set_page_config(
     page_title="twspace-dl online",
     page_icon="🐦",
