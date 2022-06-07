@@ -8,7 +8,6 @@ import streamlit.components.v1 as components
 
 os.environ["PATH"] = f"{os.environ['PATH']}:{os.path.dirname(__file__)}"
 
-print(shutil.which("ffmpeg"))
 st.set_page_config(
     page_title="twspace-dl online",
     page_icon="🐦",
