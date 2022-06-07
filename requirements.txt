@@ -1,2 +1,2 @@
 streamlit
-git+https://github.com/HoloArchivists/twspace-dl
+twspace-dl
