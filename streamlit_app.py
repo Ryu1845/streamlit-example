@@ -1,9 +1,7 @@
 from datetime import datetime
 import os
-import shutil
-
-import streamlit as st
 from twspace_dl import Twspace, TwspaceDL
+import streamlit as st
 import streamlit.components.v1 as components
 
 os.environ["PATH"] = f"{os.environ['PATH']}:{os.path.dirname(__file__)}"
@@ -13,7 +11,10 @@ st.set_page_config(
     page_icon="🐦",
     layout="wide",
     menu_items={
-        "About": "This was made using [twspace-dl](https://github.com/HoloArchivists/twspace-dl/). You can find the source [here](https://github.com/Ryu1845/streamlit-example)"
+        "About": (
+            "This was made using [twspace-dl](https://github.com/HoloArchivists/twspace-dl/). "
+            "You can find the source [here](https://github.com/Ryu1845/streamlit-example)"
+        )
     },
 )
 """
@@ -63,7 +64,11 @@ with st.container():
   </div>
 </div>"""
     length = str(
-        datetime.fromtimestamp(int(data["ended_at"]) / 1000)
+        (
+            datetime.fromtimestamp(int(data["ended_at"]) / 1000)
+            if data.get("ended_at")
+            else datetime.now()
+        )
         - datetime.fromtimestamp(int(data["started_at"]) / 1000)
     )
     components.html(
@@ -76,7 +81,7 @@ with st.container():
       <strong
         class="rounded border border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white"
       >{datetime.fromtimestamp(
-                    int(data["ended_at"]) / 1000
+                    int(data["started_at"]) / 1000
                 ).strftime("%A, %B %d, %Y")}
       </strong>
 
@@ -126,9 +131,15 @@ if st.button(
     help="Only available if there's a replay or if it's live",
 ):
     download = TwspaceDL(space, format_str=None)
-    with st.spinner("Downloading... This might take up to 5 minutes"):
+    with st.spinner(
+        (
+            "Downloading... This might take up to 5 minutes for replays, "
+            "and however time is left for currently running ones"
+        )
+    ):
         download.download()
     with open(download.filename + ".m4a", "rb") as file:
+        st.audio(file, format="audio/mp4")
         st.download_button(
             "Download File",
             data=file,
